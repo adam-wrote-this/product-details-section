@@ -1,4 +1,4 @@
-const ProductSizes = () => {
+const ProductSizes = ({ sizes }: { sizes: string[] }) => {
   return (
     <div className='flex flex-col gap-4 self-stretch'>
       <span className='font-normal text-sm text-neutral-500'>

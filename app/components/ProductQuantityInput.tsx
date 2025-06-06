@@ -1,16 +1,16 @@
 const ProductQuantityInput = ({
   selectedQuantity = 1,
-  onChange
+  onSelectedQuantityChange
 }: {
   selectedQuantity: number
-  onChange: (value: number) => void
+  onSelectedQuantityChange: (value: number) => void
 }) => {
   const handleIncrement = () => {
-    onChange(selectedQuantity + 1)
+    onSelectedQuantityChange(selectedQuantity + 1)
   }
   const handleDecrement = () => {
     if (selectedQuantity > 1) {
-      onChange(selectedQuantity - 1)
+      onSelectedQuantityChange(selectedQuantity - 1)
     }
   }
 

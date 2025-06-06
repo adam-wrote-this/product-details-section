@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import ProductColors from './ProductColors'
 import ProductInfo from './ProductInfo'
 import ProductQuantityInput from './ProductQuantityInput'
@@ -23,6 +23,14 @@ const ProductDetails = ({ data, onAddToCart }: ProductDetailsProps) => {
     console.log(selectedColor)
     setSelectedColor(selectedColor)
   }
+
+  const selectedProduct = useMemo(() => {
+    return data.inventory.find(
+      (aInventory, index) => aInventory.color === selectedColor && aInventory
+    )
+  }, [selectedColor, selectedQuantity])
+
+  console.log(selectedProduct)
 
   return (
     <div className='flex flex-col gap-10 self-stretch'>
@@ -78,10 +86,10 @@ const ProductDetails = ({ data, onAddToCart }: ProductDetailsProps) => {
           selectedColor={selectedColor}
           onSelectedChange={handleSelectedChange}
         />
-        <ProductDetails.Sizes />
+        <ProductDetails.Sizes sizes={['XS']} />
         <ProductQuantityInput
           selectedQuantity={selectedQuantity}
-          onChange={setQuantity}
+          onSelectedQuantityChange={setQuantity}
         />
         <div
           className='flex justify-center items-center gap-1.5 self-stretch bg-indigo-700 px-5 py-3 rounded'
