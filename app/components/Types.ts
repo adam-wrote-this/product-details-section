@@ -35,7 +35,7 @@ export interface ProductImage {
   image_url: string
 }
 
-interface InfoSection {
+export interface InfoSection {
   title: string
   description: string[]
 }

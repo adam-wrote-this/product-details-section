@@ -1,4 +1,4 @@
-const ProductRating = () => {
+const ProductRating = ({ rating }: { rating: number }) => {
   return (
     <div className='flex items-center justify-center gap-1'>
       <div className='w-5 h-5'>
