@@ -12,8 +12,9 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails = ({ data, onAddToCart }: ProductDetailsProps) => {
-  const [selectedQuantity, setQuantity] = useState<number>(1)
   const [selectedColor, setSelectedColor] = useState<string>(data.colors[0])
+  const [selectedSize, setSelectedSize] = useState<string>('xs')
+  const [selectedQuantity, setQuantity] = useState<number>(1)
 
   function handleAddToCart() {
     onAddToCart(data.product_id, selectedQuantity)
@@ -28,7 +29,11 @@ const ProductDetails = ({ data, onAddToCart }: ProductDetailsProps) => {
     return data.inventory.find(
       (aInventory, index) => aInventory.color === selectedColor && aInventory
     )
-  }, [selectedColor, selectedQuantity])
+  }, [selectedColor, selectedSize, selectedQuantity])
+
+  const stock = useMemo(() => {
+    return selectedProduct ? selectedProduct.stock : 0
+  }, [selectedProduct])
 
   console.log(selectedProduct)
 
@@ -43,16 +48,16 @@ const ProductDetails = ({ data, onAddToCart }: ProductDetailsProps) => {
             <div className='flex flex-col justify-center gap-2 self-stretch'>
               <div className='flex items-end gap-2'>
                 <span className='font-medium text-3xl text-neutral-600'>
-                  ${data.priceRange.lowest}
+                  ${selectedProduct?.sale_price}
                 </span>
                 <span className='font-medium text-lg strikethrough text-neutral-400'>
-                  ${data.priceRange.highest}
+                  ${selectedProduct?.list_price}
                 </span>
               </div>
               <div className='w-[152px] flex items-center gap-2'>
                 <div className='flex items-center bg-amber-50 px-2.5 py-1 rounded-full border border-solid border-amber-200'>
                   <span className='font-normal text-sm text-center text-amber-700'>
-                    20% OFF
+                    {selectedProduct?.discount_percentage}% OFF
                   </span>
                 </div>
               </div>
@@ -86,8 +91,12 @@ const ProductDetails = ({ data, onAddToCart }: ProductDetailsProps) => {
           selectedColor={selectedColor}
           onSelectedChange={handleSelectedChange}
         />
-        <ProductDetails.Sizes sizes={['XS']} />
+        <ProductDetails.Sizes
+          selectedSize={selectedSize}
+          onSelectedSizeChange={setSelectedSize}
+        />
         <ProductQuantityInput
+          stock={stock}
           selectedQuantity={selectedQuantity}
           onSelectedQuantityChange={setQuantity}
         />

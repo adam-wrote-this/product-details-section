@@ -1,7 +1,9 @@
 const ProductQuantityInput = ({
+  stock = 0,
   selectedQuantity = 1,
   onSelectedQuantityChange
 }: {
+  stock?: number
   selectedQuantity: number
   onSelectedQuantityChange: (value: number) => void
 }) => {
